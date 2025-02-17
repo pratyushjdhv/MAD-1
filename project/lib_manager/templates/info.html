@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}
+user info
+{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h2 style="text-decoration: underline; ">Requested books</h2>
+    {% if request %}
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Book Title</th>
+                    <th>Request Date</th>
+                    {% if current_user.is_admin or current_user.is_librarian %}
+                        <th>Actions</th>     
+                    {% endif %}         
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in request %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ req.reader.username }}</td>
+                    <td>{{ req.book.title }}</td>
+                    <td>{{ req.request_date }}</td>{% if not req.borrowed_status or current_user.is_admin or current_user.is_librarian %}   
+                    <td>                                                
+                        <form id="accept_form_{{ loop.index }}"
+                            action="{{ url_for('accept_request', book_id=req.book_id, reader_id=req.reader.email) }}" method="POST"
+                            style="display: inline;">
+                            <button type="submit" class="btn btn-outline-primary"
+                                style="margin-right: 15px;">Accept</button>
+                        </form>
+                        {% endif %}
+                    </td>             
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3>No requests found</h3>
+    {% endif %}
+</div>
+
+<div class="container mt-4">
+    <h2 style="text-decoration: underline;">Owned books</h2>
+    {% if owned %}
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Book Title</th>
+                    <th>Issued Date</th>
+                    <th>Return Date</th>
+                    {% if current_user.is_admin or current_user.is_librarian %}
+                        <th>Actions</th>  
+                    {% endif %}              
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in owned %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ req.reader.username }}</td>
+                    <td>{{ req.book.title }}</td>
+                    <td>{{ req.issue_date }}</td>
+                    <td>{{ req.return_date }}</td>
+                    {% if req.borrowed_status and current_user.is_admin or current_user.is_librarian %}
+                    <td>                        
+                        <form id="delete_form_{{ loop.index }}"
+                            action="{{ url_for('delete_request', book_id=req.book_id, reader_id=req.reader.email) }}" method="POST"
+                            style="display: inline;">
+                            <button type="submit" class="btn btn-outline-danger">Delete</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        
+        <h5>No owned books found</h5>
+    {% endif %}
+</div>
+{% endblock %}

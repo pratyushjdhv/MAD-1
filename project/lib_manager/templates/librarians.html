@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Librarian List
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4" >
+  <h2>Librarian List</h2>
+  <table class="table table-dark">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% set i = namespace(value=1) %}
+      {% for librarian in librarians %}
+      <tr>
+        <th scope="row">{{ i.value }}</th>
+        <td>{{ librarian.username }}</td>
+        <td>{{ librarian.email }}</td>
+        <td> 
+          <form action="{{ url_for('delete_librarian', user_email=librarian.email) }}" method="POST">
+            <button type="submit" class="btn btn-outline-danger" >Remove Librarian</button>
+          </form>       
+        </td>
+      </tr>
+      {% set i.value = i.value + 1 %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

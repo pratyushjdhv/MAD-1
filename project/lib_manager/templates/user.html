@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+User List
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>User List</h2>
+  <table class="table table-dark">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% set i = namespace(value=1) %}
+      {% for user in users %}
+
+      <tr>
+        <th scope="row">{{ i.value }}</th>
+        <td>
+          <a href="{{ url_for('user_info', username=user.username) }}" class="nav-link" style="display: block; text-decoration: underline;">{{ user.username }}</a>
+        </td>
+        <td>{{ user.email }}</td>
+        <td>
+          <div class="btn-group" role="group" aria-label="User Actions">
+            {% if user.is_librarian %}
+            <a class="btn btn-primary  disabled" aria-disabled="true" style="margin-right: 56px;">Librarian</a>
+            {% else %}
+            <form action="{{ url_for('make_librarian', user_email=user.email) }}" method="POST"
+              style="display: inline;">
+              <button type="submit" class="btn btn-outline-primary " style="margin-right: 15px;">Make Librarian</button>
+            </form> 
+            {% endif %}
+
+            <form action="{{ url_for('delete_user', user_email=user.email) }}" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-outline-danger ">Delete</button>
+            </form>
+          </div>
+
+        </td>
+      </tr>
+      {% set i.value = i.value + 1 %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

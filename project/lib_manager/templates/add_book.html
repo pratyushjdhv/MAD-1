@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}
+add books page
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Add Books</h2>
+    <form method="POST" enctype="multipart/form-data" class="form-register" style=" font-size:20px;display:-moz-inline-stack; text-align: left; ">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.isbn_no.label }} 
+            {{ form.isbn_no(class="form-control", placeholder="id") }}
+            {% for error in form.isbn_no.errors %} 
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.title.label }}
+            {{ form.title(class="form-control", placeholder="name") }}
+            {% for error in form.title.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.author.label }}
+            {{ form.author(class="form-control", placeholder="author") }}
+            {% for error in form.author.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.genre.label }}
+            {{ form.genre(class="form-control", placeholder="genre") }}
+            {% for error in form.genre.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.synopsis.label }}
+            {{ form.synopsis(class="form-control", placeholder="synopsis") }}
+            {% for error in form.synopsis.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.uploader.label }}
+            {{ form.uploader(class="form-control", readonly='readonly', placeholder="uploader") }}
+            {% for error in form.uploader.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <br>
+        
+        <div class="form-group">
+            {{ form.book_file.label }}
+            {{ form.book_file(class="form-control-file" , placeholder="upload book_file") }}
+            {% for error in form.book_file.errors %}
+            <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div style="padding-top: 0.4em;">
+            <button type="submit" class="btn btn-primary" >Submit</button>
+        </div>
+        
+    </form>
+</div>
+{% endblock %}

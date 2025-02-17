@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Trending Books
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4 mb-4">Trending Books</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-group">
+                {% for book_count in books %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3><span class="badge badge-secondary" style="color: black;">{{ book_count[0] }}</span></h3>
+                        </div>
+                        <div>
+                            <h3>
+                                <span>{{ book_count[1] }}</span>
+                            </h3>
+                            
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
